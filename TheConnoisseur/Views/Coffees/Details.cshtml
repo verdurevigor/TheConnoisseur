@@ -1,0 +1,50 @@
+﻿@model TheConnoisseur.Models.Coffee
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Coffee</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.JournalID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JournalID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RoastType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RoastType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Origin)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Origin)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FoodPairing)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FoodPairing)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CoffeeID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
