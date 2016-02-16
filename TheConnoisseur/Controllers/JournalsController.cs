@@ -121,6 +121,25 @@ namespace TheConnoisseur.Views
             return RedirectToAction("Index");
         }
 
+        // GET: Journals/Search
+        public ActionResult Search()
+        {
+            return View();
+        }
+
+        // POST: Journals/Search/searchTerm
+        [HttpPost]
+        public ActionResult Search(string searchTerm)
+        {
+            // Get journals that match the searchTerm
+            var journals = (from j in db.Journals
+                            where j.Description.Contains(searchTerm)
+                            select j).ToList();
+            // Return searchTerm to display to user.
+            ViewBag.SearchTerm = searchTerm;
+            return View("Search", journals);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

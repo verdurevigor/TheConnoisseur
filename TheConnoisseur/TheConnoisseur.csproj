@@ -257,6 +257,7 @@
     <Content Include="Views\Coffees\Details.cshtml" />
     <Content Include="Views\Coffees\Edit.cshtml" />
     <Content Include="Views\Coffees\Index.cshtml" />
+    <Content Include="Views\Journals\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
