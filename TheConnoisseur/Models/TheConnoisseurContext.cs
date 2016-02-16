@@ -26,6 +26,8 @@ namespace TheConnoisseur.Models
         public System.Data.Entity.DbSet<TheConnoisseur.Models.Beer> Beers { get; set; }
 
         public System.Data.Entity.DbSet<TheConnoisseur.Models.Coffee> Coffees { get; set; }
+
+        public System.Data.Entity.DbSet<TheConnoisseur.Models.Privacy> Privacies { get; set; }
     
     }
 }

@@ -50,6 +50,6 @@ C:\Users\Brody\Documents\GitHub\TheConnoisseur\TheConnoisseur\bin\Microsoft.Owin
 C:\Users\Brody\Documents\GitHub\TheConnoisseur\TheConnoisseur\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\Brody\Documents\GitHub\TheConnoisseur\TheConnoisseur\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\Brody\Documents\GitHub\TheConnoisseur\TheConnoisseur\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\Brody\Documents\GitHub\TheConnoisseur\TheConnoisseur\obj\Debug\TheConnoisseur.csprojResolveAssemblyReference.cache
 C:\Users\Brody\Documents\GitHub\TheConnoisseur\TheConnoisseur\obj\Debug\TheConnoisseur.dll
 C:\Users\Brody\Documents\GitHub\TheConnoisseur\TheConnoisseur\obj\Debug\TheConnoisseur.pdb
+C:\Users\Brody\Documents\GitHub\TheConnoisseur\TheConnoisseur\obj\Debug\TheConnoisseur.csprojResolveAssemblyReference.cache

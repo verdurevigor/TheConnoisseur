@@ -19,7 +19,7 @@ namespace TheConnoisseur.Models
         public virtual string State { get; set; }
         public virtual string FavItem { get; set; }
         public virtual string Tagline { get; set; }
-        public virtual string PrivacyType { get; set; }
+        public virtual int PrivacyType { get; set; }
         public virtual string AvatarPath { get; set; }
         public virtual DateTime DateCreated { get; set; }
     }

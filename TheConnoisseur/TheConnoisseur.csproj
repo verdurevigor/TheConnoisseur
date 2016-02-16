@@ -170,9 +170,11 @@
     <Compile Include="Models\Author.cs" />
     <Compile Include="Models\Beer.cs" />
     <Compile Include="Models\Coffee.cs" />
+    <Compile Include="Models\CoffeeViewModel.cs" />
     <Compile Include="Models\Friendship.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Journal.cs" />
+    <Compile Include="Models\PrivacyType.cs" />
     <Compile Include="Models\TheConnoisseurContext.cs" />
     <Compile Include="Models\TheConnoisseurDbInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -258,6 +260,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Privacies\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

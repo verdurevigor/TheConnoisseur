@@ -13,6 +13,12 @@ namespace TheConnoisseur.Views
     public class JournalsController : Controller
     {
         private TheConnoisseurContext db = new TheConnoisseurContext();
+        
+        /* TODO: Implement this function. Currently the 'db.' is giving error
+        public static SelectList GetPrivacyList()
+        {
+            SelectList sl = new SelectList(db.Privacies.OrderBy(s => s.Title), "PrivacyId", "PType");
+        }*/
 
         // GET: Journals
         public ActionResult Index()

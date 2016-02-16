@@ -22,7 +22,7 @@ namespace TheConnoisseur.Models
                 LastName = "Case",
                 Password = "Test9!",
                 PasswordConfirm = "Test9!",
-                PrivacyType = "pu",
+                PrivacyType = 1,
                 State = "OR",
                 Tagline = "When it's bitter, it is best",
                 UserName = "BitterOne",
@@ -41,7 +41,7 @@ namespace TheConnoisseur.Models
                 LastName = "Dewald",
                 Password = "Test9!",
                 PasswordConfirm = "Test9!",
-                PrivacyType = "pu",
+                PrivacyType = 1,
                 State = "OR",
                 Tagline = "More rain, please.",
                 UserName = "SharingCat",
@@ -57,7 +57,7 @@ namespace TheConnoisseur.Models
                 JType = "co",
                 Location = "At home",
                 Maker = "Wander Goat",
-                PrivacyType = "pu",
+                PrivacyType = 1,
                 Rating = 4,
                 Title = "Heart of Darkness",
             };
@@ -71,10 +71,19 @@ namespace TheConnoisseur.Models
                 RoastType = "Dark roast"
             };
 
+            Privacy p1 = new Privacy() { PrivacyID = 1, PType = "public" };
+            Privacy p2 = new Privacy() { PrivacyID = 1, PType = "private" };
+            Privacy p3 = new Privacy() { PrivacyID = 1, PType = "friends only" };
+            context.Privacies.Add(p1);
+            context.Privacies.Add(p2);
+            context.Privacies.Add(p3);
 
-            context.Journals.Add(j1);
             context.Authors.Add(a1);
             context.Authors.Add(a2);
+
+            context.Journals.Add(j1);
+
+
 
             base.Seed(context);
         }
