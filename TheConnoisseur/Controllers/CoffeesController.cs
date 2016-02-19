@@ -17,12 +17,12 @@ namespace TheConnoisseur.Controllers
         private SelectList GetPrivacyList(int? current)
         {
             SelectList s1;
-            if (current != null)
+            if (current == null)
             {
-                 s1 = new SelectList(db.Privacies.OrderBy(p => p.PType), "PrivacyID", "PType", 1);
+                 s1 = new SelectList(db.Privacies.OrderBy(p => p.Name), "PrivacyID", "Name", 1);
                  return s1;        
             }
-            s1 = new SelectList(db.Privacies.OrderBy(p => p.PType), "PrivacyID", "PType", current);
+            s1 = new SelectList(db.Privacies.OrderBy(p => p.Name), "PrivacyID", "Name", current);
             return s1;
         }
         // GET: Coffees
@@ -38,12 +38,31 @@ namespace TheConnoisseur.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Coffee coffee = db.Coffees.Find(id);
+            // Get coffee object using FK JournalID sent from ActionLink
+            Coffee coffee = (from c in db.Coffees
+                             where c.JournalID == id
+                             select c).FirstOrDefault();
             if (coffee == null)
             {
                 return HttpNotFound();
             }
-            return View(coffee);
+
+            Journal journal = db.Journals.Find(coffee.JournalID);
+
+            if (journal == null)
+            {
+                return HttpNotFound();
+            }
+            // Journal record exists, make ViewModel and pass to edit view
+            CoffeeViewModel cvm = new CoffeeViewModel()
+            {
+                Author = (from a in db.Authors
+                          where a.AuthorID == journal.AuthorID
+                          select a).FirstOrDefault(),
+                Journal = journal,
+                Coffee = coffee
+            };
+            return View(cvm);
         }
 
         // GET: Coffees/Create
@@ -58,7 +77,7 @@ namespace TheConnoisseur.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CoffeeID,JournalID,RoastType,Origin,FoodPairing,Maker,Title,Rating,Description,Location")] CoffeeViewModel cvm, int PrivacyList)
+        public ActionResult Create([Bind(Include = "Journal,Coffee")] CoffeeViewModel cvm, int PrivacyList)
         { 
             if (ModelState.IsValid)
             {
@@ -67,31 +86,31 @@ namespace TheConnoisseur.Controllers
                 {
                     AuthorID = 1,   // TODO: use Identity to set this property
                     Date = DateTime.Now,
-                    Description = cvm.Description,
-                    JType = cvm.JType,
-                    Location = cvm.Location,
-                    Maker = cvm.Maker,
+                    Description = cvm.Journal.Description,
+                    JType = "co",
+                    Location = cvm.Journal.Location,
+                    Maker = cvm.Journal.Maker,
                     PrivacyType = PrivacyList,
-                    Rating = cvm.Rating,
-                    Title = cvm.Title,
+                    Rating = cvm.Journal.Rating,
+                    Title = cvm.Journal.Title
                 };
                 db.Journals.Add(j);
                 db.SaveChanges();
 
-                // Create pairing coffee objecgt and add to database
+                // Create pairing coffee object and add to database
                 Coffee c = new Coffee()
                 {
-                    FoodPairing = cvm.FoodPairing,
+                    FoodPairing = cvm.Coffee.FoodPairing,
                     JournalID = j.JournalID,
-                    Origin = cvm.Origin,
-                    RoastType = cvm.RoastType
+                    Origin = cvm.Coffee.Origin,
+                    RoastType = cvm.Coffee.RoastType
                 };
 
                 db.Coffees.Add(c);
                 db.SaveChanges();
-                return RedirectToAction("Index");   // TODO: make sure this link to appropriate page. Consider the user's profile.
+                return RedirectToAction("Index");   // TODO: make sure this links to appropriate page. Consider the user's profile.
             }
-
+            ViewBag.PrivacyList = GetPrivacyList(null);
             return View(cvm);
         }
 
@@ -102,7 +121,10 @@ namespace TheConnoisseur.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Coffee coffee = db.Coffees.Find(id);
+            // Get coffee object using FK JournalID
+            Coffee coffee = (from c in db.Coffees
+                             where c.JournalID == id
+                             select c).FirstOrDefault();
             if (coffee == null)
             {
                 return HttpNotFound();
@@ -115,22 +137,15 @@ namespace TheConnoisseur.Controllers
             // Journal record exists, make ViewModel and pass to edit view
             CoffeeViewModel cvm = new CoffeeViewModel()
             {
-                AuthorID = journal.AuthorID,
-                Date = journal.Date,
-                Description = journal.Description,
-                ImagePath = journal.ImagePath,
-                Location = journal.Location,
-                Maker = journal.Maker,
-                Rating = journal.Rating,
-                Title = journal.Title,
-                CoffeeID = coffee.CoffeeID,
-                FoodPairing = coffee.FoodPairing,
-                Origin = coffee.Origin,
-                RoastType = coffee.RoastType
+                Author = (from a in db.Authors
+                          where a.AuthorID == journal.AuthorID
+                          select a).FirstOrDefault(),
+                Journal = journal,
+                Coffee = coffee
             };
             // Set dropdownlist to preselected privacy type.
             ViewBag.PrivacyList = GetPrivacyList(journal.PrivacyType);
-            return View(coffee);
+            return View(cvm);
         }
 
         // POST: Coffees/Edit/5
@@ -138,15 +153,44 @@ namespace TheConnoisseur.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CoffeeID,JournalID,RoastType,Origin,FoodPairing")] Coffee coffee)
+        public ActionResult Edit([Bind(Include = "Journal,Author,Coffee")] CoffeeViewModel cvm, int PrivacyList)
         {
             if (ModelState.IsValid)
             {
+                // Pull Journal from database, check authorization (same user), update, and save
+                Journal journal = (from j in db.Journals
+                             where j.JournalID == cvm.Journal.JournalID
+                             select j).FirstOrDefault();
+                if (journal.AuthorID == 1 || journal.AuthorID == 2)    // TODO: Update this if statement to check authorid against the current identity
+                {
+                    // TODO: send user to login page, or a "your kicked out" page
+                    RedirectToAction("Index", "Home");
+                }
+                journal.Description = cvm.Journal.Description;
+                journal.ImagePath = cvm.Journal.ImagePath;
+                journal.Location = cvm.Journal.Location;
+                journal.Rating = cvm.Journal.Rating;
+                journal.Title = cvm.Journal.Title;
+                journal.PrivacyType = PrivacyList;
+
+                // Pull Coffee from database, update fields, and save
+                Coffee coffee = (from c in db.Coffees
+                            where c.JournalID == journal.JournalID
+                            select c).FirstOrDefault();
+
+                coffee.FoodPairing = cvm.Coffee.FoodPairing;
+                coffee.Origin = cvm.Coffee.Origin;
+                coffee.RoastType = cvm.Coffee.RoastType;
+ 
+                
+                // Set objects and save
+                db.Entry(journal).State = EntityState.Modified;
                 db.Entry(coffee).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(coffee);
+            ViewBag.PrivacyList = GetPrivacyList(PrivacyList);
+            return View(cvm);
         }
 
         // GET: Coffees/Delete/5
@@ -156,7 +200,10 @@ namespace TheConnoisseur.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Coffee coffee = db.Coffees.Find(id);
+            // Get coffee object using FK JournalID
+            Coffee coffee = (from c in db.Coffees
+                             where c.JournalID == id
+                             select c).FirstOrDefault();
             if (coffee == null)
             {
                 return HttpNotFound();
@@ -169,8 +216,15 @@ namespace TheConnoisseur.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Coffee coffee = db.Coffees.Find(id);
+            // The id being passed is the JounalID
+            Journal journal = db.Journals.Find(id);
+            // Get coffee object using FK JournalID
+            Coffee coffee = (from c in db.Coffees
+                             where c.JournalID == journal.JournalID
+                             select c).FirstOrDefault();
+            
             db.Coffees.Remove(coffee);
+            db.Journals.Remove(journal);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

@@ -8,6 +8,6 @@ namespace TheConnoisseur.Models
     public class Privacy
     {
         public int PrivacyID { get; set; }
-        public string PType { get; set; }
+        public string Name { get; set; }
     }
 }

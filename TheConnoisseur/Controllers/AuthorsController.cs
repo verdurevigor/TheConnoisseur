@@ -17,102 +17,25 @@ namespace TheConnoisseur.Controllers
         // GET: Authors
         public ActionResult Index()
         {
-            return View(db.Authors.ToList());
-        }
 
-        // GET: Authors/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Author author = db.Authors.Find(id);
-            if (author == null)
-            {
-                return HttpNotFound();
-            }
+            // TODO: Get currently logged in user and pass their author information to the view
+            
+            // Currently testing view with a hard coded author
+            Author author = (from a in db.Authors
+                        where a.AuthorID == 1
+                        select a).FirstOrDefault();
             return View(author);
         }
 
-        // GET: Authors/Create
-        public ActionResult Create()
+        // TODO: use this method when a friend's profile link is clicked.
+        // GET: Authors/FriendProfile/1
+        public ActionResult FriendProfile(int friendID)
         {
-            return View();
-        }
-
-        // POST: Authors/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AuthorID,UserName,Email,EmailConfirm,Password,PasswordConfirm,FirstName,LastName,City,State,FavItem,Tagline,PrivacyType,AvatarPath,DateCreated")] Author author)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Authors.Add(author);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-
-            return View(author);
-        }
-
-        // GET: Authors/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Author author = db.Authors.Find(id);
-            if (author == null)
-            {
-                return HttpNotFound();
-            }
-            return View(author);
-        }
-
-        // POST: Authors/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AuthorID,UserName,Email,EmailConfirm,Password,PasswordConfirm,FirstName,LastName,City,State,FavItem,Tagline,PrivacyType,AvatarPath,DateCreated")] Author author)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(author).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(author);
-        }
-
-        // GET: Authors/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Author author = db.Authors.Find(id);
-            if (author == null)
-            {
-                return HttpNotFound();
-            }
-            return View(author);
-        }
-
-        // POST: Authors/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Author author = db.Authors.Find(id);
-            db.Authors.Remove(author);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            Author author = (from a in db.Authors
+                             where a.AuthorID == friendID
+                             select a).FirstOrDefault();
+            // TODO: ensure that author found has "friend" relation with current identity
+            return View("Index", author);
         }
 
         protected override void Dispose(bool disposing)

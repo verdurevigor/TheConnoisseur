@@ -25,7 +25,7 @@ namespace TheConnoisseur.Models
                 PrivacyType = 1,
                 State = "OR",
                 Tagline = "When it's bitter, it is best",
-                UserName = "BitterOne",
+                Username = "BitterOne",
             };
 
             Author a2= new Author()
@@ -44,7 +44,7 @@ namespace TheConnoisseur.Models
                 PrivacyType = 1,
                 State = "OR",
                 Tagline = "More rain, please.",
-                UserName = "SharingCat",
+                Username = "SharingCat",
             };
 
             Journal j1 = new Journal()
@@ -64,16 +64,16 @@ namespace TheConnoisseur.Models
 
             Coffee c1 = new Coffee()
             {
-                CoffeeID = 1,
+                CoffeeID = 2,
                 FoodPairing = "None",
                 JournalID = 1,
                 Origin = "Sumatra",
                 RoastType = "Dark roast"
             };
 
-            Privacy p1 = new Privacy() { PrivacyID = 1, PType = "public" };
-            Privacy p2 = new Privacy() { PrivacyID = 1, PType = "private" };
-            Privacy p3 = new Privacy() { PrivacyID = 1, PType = "friends only" };
+            Privacy p1 = new Privacy() { PrivacyID = 1, Name = "public" };
+            Privacy p2 = new Privacy() { PrivacyID = 2, Name = "private" };
+            Privacy p3 = new Privacy() { PrivacyID = 3, Name = "friends only" };
             context.Privacies.Add(p1);
             context.Privacies.Add(p2);
             context.Privacies.Add(p3);
@@ -82,6 +82,7 @@ namespace TheConnoisseur.Models
             context.Authors.Add(a2);
 
             context.Journals.Add(j1);
+            context.Coffees.Add(c1);
 
 
 

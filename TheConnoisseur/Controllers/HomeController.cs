@@ -13,10 +13,8 @@ namespace TheConnoisseur.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult Maps()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
 

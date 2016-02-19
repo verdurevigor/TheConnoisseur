@@ -1,4 +1,4 @@
-﻿@model TheConnoisseur.Models.Coffee
+﻿@model TheConnoisseur.Models.CoffeeViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -6,45 +6,30 @@
 
 <h2>Details</h2>
 
-<div>
-    <h4>Coffee</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.JournalID)
-        </dt>
+<h4>Coffee</h4>
+<hr />
 
-        <dd>
-            @Html.DisplayFor(model => model.JournalID)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.RoastType)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.RoastType)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Origin)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Origin)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FoodPairing)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FoodPairing)
-        </dd>
-
-    </dl>
+<div class="row">
+    <div class="col-md-4">
+            @Html.DisplayNameFor(model => model.Author.Username): @Html.DisplayFor(model => model.Author.Username)<br />
+            @Html.DisplayNameFor(model => model.Journal.Title): @Html.DisplayFor(model => model.Journal.Title)<br />
+            @Html.DisplayNameFor(model => model.Journal.Maker): @Html.DisplayFor(model => model.Journal.Maker)<br />
+            @Html.DisplayNameFor(model => model.Journal.Rating): @Html.DisplayFor(model => model.Journal.Rating)
+     </div>
+     <div class="col-md-4">
+            @Html.DisplayNameFor(model => model.Journal.Date): @Html.DisplayFor(model => model.Journal.Date)<br />
+            @Html.DisplayNameFor(model => model.Coffee.RoastType): @Html.DisplayFor(model => model.Coffee.RoastType)<br />
+            @Html.DisplayNameFor(model => model.Coffee.Origin): @Html.DisplayFor(model => model.Coffee.Origin)<br />
+            @Html.DisplayNameFor(model => model.Coffee.FoodPairing): @Html.DisplayFor(model => model.Coffee.FoodPairing)
+    </div>
+    <div class="col-md-4">
+        @Html.DisplayNameFor(model => model.Journal.Description):<br />
+        @Html.DisplayFor(model => model.Journal.Description)
+    </div>
 </div>
+
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.CoffeeID }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Journal.JournalID }) |
+    @Html.ActionLink("Delete", "Delete", new { id = Model.Journal.JournalID }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

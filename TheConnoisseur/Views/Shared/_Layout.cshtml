@@ -22,13 +22,11 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <!-- TODO: Modify Nav Links -->
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("The Lists", "Display", "Journal")</li><!-- TODO: add controller action to display best, worst, new etc journal entries. -->
-                    <li>@Html.ActionLink("Maps", "Index", "Map")</li>
-                    <li>@Html.ActionLink("Search", "Search", "Journal")</li>
-                    <li>@Html.ActionLink("Journal Beer", "Create", "Beer")</li>
-                    <li>@Html.ActionLink("Journal Coffee", "Create", "Coffee")</li>
+                    @* TODO: Modify nav links *@
+                    <li>@Html.ActionLink("My Blackbook", "Index", "Authors")</li>
+                    <li>@Html.ActionLink("The Lists", "Lists", "Journals")</li> @* TODO: add controller action to display best, worst, new etc journal entries. *@
+                    <li>@Html.ActionLink("Maps", "Maps", "Home")</li>
+                    <li>@Html.ActionLink("Search", "Search", "Journals")</li>
                 </ul>
             </div>
         </div>
@@ -36,7 +34,7 @@
 
     <div class="container body-content ">
 
-        <div class="well cust-background-white"><!-- Style note: bootstrap is overriden with this cust class -->
+        <div class="well cust-background-white"><!-- Style note: bootstrap is overriden with this cust- class -->
             <div class="row">
                 <div class="col-sm-3"><img class="img-responsive center-block cust-banner-img" src="~/Content/Images/oregoncraftbeer.png" alt="Oregon Craft Beer" /></div>
             </div>
@@ -53,10 +51,6 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
-
-
-
-
 
 
 
